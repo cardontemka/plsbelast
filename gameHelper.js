@@ -18,17 +18,12 @@ export default {
         down: false,
         left: false,
         right: false,
+        shot: false,
+        isBull: true,
+        atkspd: 300,
+    },
+    bull: {
+        width: 5,
+        height: 4,
     }
-    // map: {
-    //     width: window.innerWidth * 0.9,
-    //     heigh: window.innerWidth * 0.5,
-    // },
-    // player: {
-    //     x: 20,
-    //     y: 20,
-    //     spd: window.innerWidth * 0.003,
-    //     width: window.innerWidth * 0.03,
-    //     height: window.innerHeight * 0.03,
-    //     color: 'blue',
-    // }
 }

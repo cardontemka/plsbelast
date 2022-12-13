@@ -1,18 +1,18 @@
 export const Player = (ctx, obj, flex) => {
     let data = new Square(obj.x, obj.y, obj.width, obj.height, obj.image, flex);
     data.draw(ctx);
-    // obj.x += obj.spd;
 }
 class Square {
     constructor(x, y, width, height, image, flex) {
-        this.x = x * flex;
-        this.y = y * flex;
-        this.width = width * flex;
-        this.height = height * flex;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
         this.image = new Image;
         this.image.src = image;
+        this.flex = flex;
     }
     draw(ctx) {
-        ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
+        ctx.drawImage(this.image, this.x * this.flex, this.y * this.flex, this.width * this.flex, this.height * this.flex)
     }
 }
