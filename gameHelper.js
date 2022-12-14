@@ -21,9 +21,16 @@ export default {
         shot: false,
         isBull: true,
         atkspd: 300,
+        last: {
+            up: false,
+            down: false,
+            left: false,
+            right: false,
+        }
     },
     bull: {
         width: 5,
         height: 4,
+        spd: 3,
     }
 }

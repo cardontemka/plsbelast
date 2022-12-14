@@ -1,5 +1,20 @@
 export const Bull = (ctx, bull, flex) => {
-    let data = new SingleBull(bull.x, bull.y, bull.width, bull.height, bull.image, flex);
+    let data = new SingleBull(bull.x, bull.y, bull.width, bull.height, bull.color, flex)
+    switch (bull.vector) {
+        case 'up':
+            bull.y -= bull.spd * flex;
+            break;
+        case 'down':
+            bull.y += bull.spd * flex;
+            break;
+        case 'left':
+            bull.x -= bull.spd * flex;
+            break;
+        case 'right':
+            bull.x += bull.spd * flex;
+            break;
+    }
+    data.draw(ctx);
 }
 class SingleBull {
     constructor(x, y, width, height, color, flex) {
@@ -12,6 +27,6 @@ class SingleBull {
     }
     draw(ctx) {
         ctx.fillStyle = this.color
-        ctx.fillRect(this.x, this.y, this.width, this.height)
+        ctx.fillRect(this.x * this.flex, this.y * this.flex, this.width * this.flex, this.height * this.flex)
     }
 }
