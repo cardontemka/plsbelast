@@ -2,16 +2,16 @@ export const Bull = (ctx, bull, flex) => {
     let data = new SingleBull(bull.x, bull.y, bull.width, bull.height, bull.color, flex)
     switch (bull.vector) {
         case 'up':
-            bull.y -= bull.spd * flex;
+            bull.y -= bull.spd;
             break;
         case 'down':
-            bull.y += bull.spd * flex;
+            bull.y += bull.spd;
             break;
         case 'left':
-            bull.x -= bull.spd * flex;
+            bull.x -= bull.spd;
             break;
         case 'right':
-            bull.x += bull.spd * flex;
+            bull.x += bull.spd;
             break;
     }
     data.draw(ctx);

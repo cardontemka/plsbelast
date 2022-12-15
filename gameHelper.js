@@ -1,11 +1,15 @@
-import playerTank from './images/ptank.png'
+import tankUp from './images/tankUp.png'
+import tankDown from './images/tankDown.png'
+import tankLeft from './images/tankLeft.png'
+import tankRight from './images/tankRight.png'
+import brickImg from './images/brick.png'
 export default {
     constant: {
-        flex: (window.innerWidth - (window.innerWidth * 0.1)) / 640,
+        flex: (window.innerWidth - (window.innerWidth * 0.1)) / 660,
     },
     map: {
-        width: 640,
-        heigh: 360,
+        width: 660,
+        height: 360,
     },
     player: {
         x: 30,
@@ -13,7 +17,7 @@ export default {
         spd: 2,
         width: 30,
         height: 30,
-        image: playerTank,
+        image: tankRight,
         up: false,
         down: false,
         left: false,
@@ -29,8 +33,16 @@ export default {
         }
     },
     bull: {
-        width: 5,
-        height: 4,
-        spd: 3,
+        width: 4,
+        height: 3,
+        spd: 6,
+    },
+    brick: {
+        x: null,
+        y: null,
+        width: 30,
+        height: 30,
+        image: brickImg,
+        quality: 2,
     }
 }
