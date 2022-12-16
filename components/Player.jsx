@@ -1,5 +1,14 @@
 export const Player = (ctx, obj, flex) => {
     let data = new Square(obj.x, obj.y, obj.width, obj.height, obj.image, flex);
+    if (obj.moveHandler.up) {
+        obj.y -= obj.spd
+    } else if (obj.moveHandler.down) {
+        obj.y += obj.spd
+    } else if (obj.moveHandler.left) {
+        obj.x -= obj.spd
+    } else if (obj.moveHandler.right) {
+        obj.x += obj.spd
+    }
     data.draw(ctx);
 }
 class Square {
@@ -13,6 +22,8 @@ class Square {
         this.flex = flex;
     }
     draw(ctx) {
+        // ctx.fillStyle = 'red'
+        // ctx.fillRect(this.x * this.flex, this.y * this.flex, this.width * this.flex, this.height * this.flex)
         ctx.drawImage(this.image, this.x * this.flex, this.y * this.flex, this.width * this.flex, this.height * this.flex)
     }
 }

@@ -3,25 +3,30 @@ import { Player } from "./Player";
 import { Bull } from "./Bull";
 import { Brick } from "./Brick";
 import data from "../gameHelper"
-import tankUp from '../images/tankUp.png'
-import tankDown from '../images/tankDown.png'
-import tankLeft from '../images/tankLeft.png'
-import tankRight from '../images/tankRight.png'
+import tankUp from '../images/greenTank/tankUp.png'
+import tankDown from '../images/greenTank/tankDown.png'
+import tankLeft from '../images/greenTank/tankLeft.png'
+import tankRight from '../images/greenTank/tankRight.png'
+import { Background } from "./Background";
+import { WallCollision } from "./until/WallCollision";
+import { BrickCollision } from "./until/BrickCollision";
+import { BullDetect } from "./until/BullDetect";
+import { BulldWall } from "./until/BulldWall";
 
 export const Tank = () => {
     const { player, map, bull, constant, brick } = data;
     const canvasRef = useRef(null);
     const bulls = useRef([]);
     const bricks = useRef([
-        { x: 240, y: 150, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
-        { x: 360, y: 150, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
-        { x: 210, y: 240, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
-        { x: 240, y: 270, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
-        { x: 270, y: 270, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
-        { x: 300, y: 270, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
-        { x: 330, y: 270, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
-        { x: 360, y: 270, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
-        { x: 390, y: 240, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
+        { x: 240, y: 90, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
+        { x: 360, y: 90, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
+        { x: 210, y: 180, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
+        { x: 240, y: 210, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
+        { x: 270, y: 210, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
+        { x: 300, y: 210, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
+        { x: 330, y: 210, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
+        { x: 360, y: 210, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
+        { x: 390, y: 180, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
     ]);
     // const [bullet, setBullet] = useState([]);
     player.image = tankRight
@@ -40,17 +45,30 @@ export const Tank = () => {
             const ctx = canvas.getContext('2d');
 
             ctx.clearRect(0, 0, map.width * constant.flex, map.height * constant.flex);
-            ctx.fillStyle = 'gray'
-            ctx.fillRect(0, 0, map.width * constant.flex, map.height * constant.flex);
+            Background(ctx, map, constant.flex);
 
             if (bricks.current.length) {
                 bricks.current.map((brick) => {
+                    BrickCollision(player, brick)
                     Brick(ctx, brick, constant.flex);
                 })
             }
 
             if (bulls.current.length) {
-                bulls.current.map((bull) => {
+                bulls.current.map((bull, bindex) => {
+                    let gone = BulldWall(bull, bindex, map);
+                    if (gone !== null) {
+                        bulls.current.splice(gone, 1);
+                    }
+                    bricks.current.map((brick, brindex) => {
+                        let destroy = BullDetect(bull, bindex, brick, brindex, map)
+                        if (destroy !== null) {
+                            bulls.current.splice(destroy.indexb, 1)
+                            if (brick.quality <= 0) {
+                                bricks.current.splice(destroy.indexbr, 1)
+                            }
+                        }
+                    })
                     Bull(ctx, bull, constant.flex);
                 })
             }
@@ -67,7 +85,7 @@ export const Tank = () => {
         if (player.isBull) {
             player.isBull = false;
             // setBullet((bullet) => [...bullet, { x: player.y + player.height / 2, y: player.x + player.width / 2, width: bull.width, height: bull.height, color: 'yellow' }])
-            bulls.current.push({ x: player.x + player.width / 2 - bull.width / 2, y: player.y + player.height / 2 - bull.height / 2, width: bull.width, height: bull.height, color: 'yellow', spd: bull.spd, vector: player.last.up ? 'up' : player.last.down ? 'down' : player.last.left ? 'left' : 'right' });
+            bulls.current.push({ x: player.x + player.width / 2 - bull.width / 2, y: player.y + player.height / 2 - bull.height / 2, width: bull.width, height: bull.height, color: bull.color, spd: bull.spd, vector: player.last.up ? 'up' : player.last.down ? 'down' : player.last.left ? 'left' : 'right' });
             setTimeout(() => {
                 player.isBull = true;
             }, player.atkspd);
@@ -79,23 +97,7 @@ export const Tank = () => {
             createBulls();
         }
         if (player.last.up || player.last.down || player.last.left || player.last.right) {
-            if (player.up) {
-                if (player.y >= 0) {
-                    player.y -= player.spd
-                }
-            } else if (player.down) {
-                if (player.y + player.height <= map.height) {
-                    player.y += player.spd
-                }
-            } else if (player.left) {
-                if (player.x >= 0) {
-                    player.x -= player.spd
-                }
-            } else if (player.right) {
-                if (player.x + player.width <= map.width) {
-                    player.x += player.spd
-                }
-            }
+            WallCollision(player, map)
         }
     }
 
