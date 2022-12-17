@@ -16,7 +16,34 @@ export default {
     player: {
         x: 30,
         y: 30,
-        spd: 1.5,
+        spd: 2,
+        width: 30,
+        height: 30,
+        image: tankRight,
+        up: false,
+        down: false,
+        left: false,
+        right: false,
+        shot: false,
+        isBull: true,
+        atkspd: 300,
+        last: {
+            up: false,
+            down: false,
+            left: false,
+            right: false,
+        },
+        moveHandler: {
+            up: false,
+            down: false,
+            left: false,
+            right: false,
+        }
+    },
+    player2: {
+        x: 500,
+        y: 300,
+        spd: 2,
         width: 30,
         height: 30,
         image: tankRight,
@@ -41,6 +68,12 @@ export default {
         }
     },
     bull: {
+        width: 4,
+        height: 3,
+        spd: 6,
+        color: 'black'
+    },
+    bull2: {
         width: 4,
         height: 3,
         spd: 6,
