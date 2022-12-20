@@ -1,7 +1,7 @@
-import tankUp from '../../images/greenTank/tankUp.png'
-import tankDown from '../../images/greenTank/tankDown.png'
-import tankLeft from '../../images/greenTank/tankLeft.png'
-import tankRight from '../../images/greenTank/tankRight.png'
+import tankUp from '../../images/cardonTank/tankUp.png'
+import tankDown from '../../images/cardonTank/tankDown.png'
+import tankLeft from '../../images/cardonTank/tankLeft.png'
+import tankRight from '../../images/cardonTank/tankRight.png'
 export const KeyDown2 = (code, player, bull) => {
     switch (code) {
         case 13:

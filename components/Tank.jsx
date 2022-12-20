@@ -10,25 +10,40 @@ import { BullDetect } from "./until/BullDetect";
 import { BulldWall } from "./until/BulldWall";
 import { KeyDown, KeyUp } from "./until/Movement";
 import { KeyDown2, KeyUp2 } from "./until/Movement2";
+import { BullDamage } from "./until/BullDamage";
 
+var end = false
 export const Tank = () => {
-    const { player, player2, map, bull, bull2, constant, brick } = data;
+    const { player, player2, map, bull, constant, brick } = data;
     const canvasRef = useRef(null);
+    const players = useRef([player, player2]);
     const bulls = useRef([]);
-    const bulls2 = useRef([]);
     const bricks = useRef([
-        { x: 240, y: 90, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
-        { x: 360, y: 90, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
-        { x: 210, y: 180, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
-        { x: 240, y: 210, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
-        { x: 270, y: 210, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
-        { x: 300, y: 210, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
-        { x: 330, y: 210, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
-        { x: 360, y: 210, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
-        { x: 390, y: 180, width: brick.width, height: brick.height, image: brick.image, quality: brick.quality },
+        { x: 240, y: 90, width: brick.width, height: brick.height, image: brick.image, heart: brick.heart },
+        { x: 360, y: 90, width: brick.width, height: brick.height, image: brick.image, heart: brick.heart },
+        { x: 210, y: 180, width: brick.width, height: brick.height, image: brick.image, heart: brick.heart },
+        { x: 240, y: 210, width: brick.width, height: brick.height, image: brick.image, heart: brick.heart },
+        { x: 270, y: 210, width: brick.width, height: brick.height, image: brick.image, heart: brick.heart },
+        { x: 300, y: 210, width: brick.width, height: brick.height, image: brick.image, heart: brick.heart },
+        { x: 330, y: 210, width: brick.width, height: brick.height, image: brick.image, heart: brick.heart },
+        { x: 360, y: 210, width: brick.width, height: brick.height, image: brick.image, heart: brick.heart },
+        { x: 390, y: 180, width: brick.width, height: brick.height, image: brick.image, heart: brick.heart },
     ]);
-    // const [bullet, setBullet] = useState([]);
     var count = 0;
+
+    // for (let i = 0; i < 12; i++) {
+    //     for (let q = 0; q < 22; q++) {
+    //         if (i > 0 && i < 11) {
+    //             if (q == 0 || q == 21) {
+    //                 bricks.current.push({ x: q * 30, y: i * 30, width: brick.width, height: brick.height, image: brick.image, heart: brick.heart })
+    //             }
+    //         } else if (i == 0) {
+    //             bricks.current.push({ x: q * 30, y: i * 30, width: brick.width, height: brick.height, image: brick.image, heart: brick.heart })
+    //         } else if (i == 11) {
+    //             bricks.current.push({ x: q * 30, y: i * 30, width: brick.width, height: brick.height, image: brick.image, heart: brick.heart })
+    //         }
+    //     }
+    // }
 
     useEffect(() => {
         const render = () => {
@@ -45,93 +60,70 @@ export const Tank = () => {
             ctx.clearRect(0, 0, map.width * constant.flex, map.height * constant.flex);
             Background(ctx, map, constant.flex);
 
-            if (bricks.current.length) {
-                bricks.current.map((brick) => {
-                    BrickCollision(player, brick)
-                    BrickCollision(player2, brick)
-                    Brick(ctx, brick, constant.flex);
-                })
-            }
+            // if (players.current.length == 1 && !end) {
+            //     end = true
+            //     alert('idk one player is win')
+            // }
 
-            if (bulls.current.length) {
-                bulls.current.map((bull, bindex) => {
-                    let gone = BulldWall(bull, bindex, map);
-                    if (gone !== null) {
-                        bulls.current.splice(gone, 1);
-                    }
-                    bricks.current.map((brick, brindex) => {
-                        let destroy = BullDetect(bull, bindex, brick, brindex, map)
-                        if (destroy !== null) {
-                            bulls.current.splice(destroy.indexb, 1)
-                            if (brick.quality <= 0) {
-                                bricks.current.splice(destroy.indexbr, 1)
+            players.current.map((player, pindex) => {
+                if (bricks.current.length) {
+                    bricks.current.map((brick) => {
+                        BrickCollision(player, brick)
+                        Brick(ctx, brick, constant.flex);
+                    })
+                }
+
+                if (bulls.current.length) {
+                    bulls.current.map((bull, bindex) => {
+                        let gone = BulldWall(bull, bindex, map);
+                        let damage = BullDamage(bull, bindex, player, pindex, map)
+                        if (gone !== null) {
+                            bulls.current.splice(gone, 1);
+                        }
+                        if (damage !== null) {
+                            bulls.current.splice(damage.bindex, 1)
+                            if (player.heart <= 0) {
+                                players.current.splice(pindex, 1)
                             }
                         }
-                    })
-                    Bull(ctx, bull, constant.flex);
-                })
-            }
-            if (bulls2.current.length) {
-                bulls2.current.map((bull, bindex) => {
-                    let gone = BulldWall(bull, bindex, map);
-                    if (gone !== null) {
-                        bulls2.current.splice(gone, 1);
-                    }
-                    bricks.current.map((brick, brindex) => {
-                        let destroy = BullDetect(bull, bindex, brick, brindex, map)
-                        if (destroy !== null) {
-                            bulls2.current.splice(destroy.indexb, 1)
-                            if (brick.quality <= 0) {
-                                bricks.current.splice(destroy.indexbr, 1)
+                        bricks.current.map((brick, ondex) => {
+                            let destroy = BullDetect(bull, bindex, brick, ondex, map)
+                            if (destroy !== null) {
+                                bulls.current.splice(destroy.bindex, 1)
+                                if (brick.heart <= 0) {
+                                    bricks.current.splice(destroy.ondex, 1)
+                                }
                             }
-                        }
+                        })
+                        Bull(ctx, bull, constant.flex);
                     })
-                    Bull(ctx, bull, constant.flex);
-                })
-            }
+                }
 
-            Player(ctx, player, constant.flex);
-            Player(ctx, player2, constant.flex);
+                Player(ctx, player, constant.flex);
 
-            move();
+                move(player, pindex);
+            })
 
         }
         render();
     }, []);
 
-    const createBulls = () => {
+    const createBulls = (player, bull, i) => {
         if (player.isBull) {
             player.isBull = false;
-            // setBullet((bullet) => [...bullet, { x: player.y + player.height / 2, y: player.x + player.width / 2, width: bull.width, height: bull.height, color: 'yellow' }])
-            bulls.current.push({ x: player.x + player.width / 2 - bull.width / 2, y: player.y + player.height / 2 - bull.height / 2, width: bull.width, height: bull.height, color: bull.color, spd: bull.spd, vector: player.last.up ? 'up' : player.last.down ? 'down' : player.last.left ? 'left' : 'right' });
+            bulls.current.push({ x: player.x + player.width / 2 - bull.width / 2, y: player.y + player.height / 2 - bull.height / 2, width: bull.width, height: bull.height, color: bull.color, spd: bull.spd, index: i, vector: player.last.up ? 'up' : player.last.down ? 'down' : player.last.left ? 'left' : 'right' });
             setTimeout(() => {
                 player.isBull = true;
             }, player.atkspd);
         }
     }
-    const createBulls2 = () => {
-        if (player2.isBull) {
-            player2.isBull = false;
-            // setBullet((bullet) => [...bullet, { x: player.y + player.height / 2, y: player.x + player.width / 2, width: bull.width, height: bull.height, color: 'yellow' }])
-            bulls2.current.push({ x: player2.x + player2.width / 2 - bull2.width / 2, y: player2.y + player2.height / 2 - bull2.height / 2, width: bull2.width, height: bull2.height, color: bull2.color, spd: bull2.spd, vector: player2.last.up ? 'up' : player2.last.down ? 'down' : player2.last.left ? 'left' : 'right' });
-            setTimeout(() => {
-                player2.isBull = true;
-            }, player2.atkspd);
-        }
-    }
 
-    const move = () => {
+    const move = (player, pindex) => {
         if (player.shot) {
-            createBulls();
-        }
-        if (player2.shot) {
-            createBulls2();
+            createBulls(player, bull, pindex);
         }
         if (player.last.up || player.last.down || player.last.left || player.last.right) {
             WallCollision(player, map)
-        }
-        if (player2.last.up || player2.last.down || player2.last.left || player2.last.right) {
-            WallCollision(player2, map)
         }
     }
 

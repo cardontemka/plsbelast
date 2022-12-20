@@ -1,8 +1,7 @@
-export const BullDetect = (bull, indexb, brick, indexbr) => {
-    if (bull.y <= brick.y + brick.height && bull.y + bull.height >= brick.y && bull.x <= brick.x + brick.width && bull.x + bull.width >= brick.x) {
-        console.log(indexb)
-        brick.quality--;
-        return {indexb, indexbr}
+export const BullDetect = (bull, bindex, obj, ondex) => {
+    if (bull.y <= obj.y + obj.height && bull.y + bull.height >= obj.y && bull.x <= obj.x + obj.width && bull.x + bull.width >= obj.x) {
+        obj.heart--;
+        return { bindex, ondex }
     }
     return null
 }

@@ -1,8 +1,13 @@
-import tankUp from './images/greenTank/tankUp.png'
-import tankDown from './images/greenTank/tankDown.png'
-import tankLeft from './images/greenTank/tankLeft.png'
-import tankRight from './images/greenTank/tankRight.png'
-import brickImg from './images/brick.png'
+import tankUpM from './images/greenTank/tankUp.png'
+import tankDownM from './images/greenTank/tankDown.png'
+import tankLeftM from './images/greenTank/tankLeft.png'
+import tankRightM from './images/greenTank/tankRight.png'
+import tankUpC from './images/cardonTank/tankUp.png'
+import tankDownC from './images/cardonTank/tankDown.png'
+import tankLeftC from './images/cardonTank/tankLeft.png'
+import tankRightC from './images/cardonTank/tankRight.png'
+import brickImg from './images/bricks/brick.png'
+import wallImg from './images/bricks/wall.png'
 import bg from './images/noteBg.jpeg'
 export default {
     constant: {
@@ -16,10 +21,10 @@ export default {
     player: {
         x: 30,
         y: 30,
-        spd: 2,
+        spd: 1.5,
         width: 30,
         height: 30,
-        image: tankRight,
+        image: tankRightM,
         up: false,
         down: false,
         left: false,
@@ -27,11 +32,12 @@ export default {
         shot: false,
         isBull: true,
         atkspd: 300,
+        heart: 5,
         last: {
             up: false,
             down: false,
             left: false,
-            right: false,
+            right: true,
         },
         moveHandler: {
             up: false,
@@ -46,7 +52,7 @@ export default {
         spd: 2,
         width: 30,
         height: 30,
-        image: tankRight,
+        image: tankLeftC,
         up: false,
         down: false,
         left: false,
@@ -54,10 +60,11 @@ export default {
         shot: false,
         isBull: true,
         atkspd: 300,
+        heart: 5,
         last: {
             up: false,
             down: false,
-            left: false,
+            left: true,
             right: false,
         },
         moveHandler: {
@@ -70,21 +77,13 @@ export default {
     bull: {
         width: 4,
         height: 3,
-        spd: 6,
-        color: 'black'
-    },
-    bull2: {
-        width: 4,
-        height: 3,
-        spd: 6,
-        color: 'black'
+        spd: 4,
+        color: 'gray',
     },
     brick: {
-        x: null,
-        y: null,
         width: 30,
         height: 30,
         image: brickImg,
-        quality: 2,
+        heart: 2,
     }
 }
