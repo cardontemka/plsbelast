@@ -21,7 +21,7 @@ export default {
     player: {
         x: 30,
         y: 30,
-        spd: 1.5,
+        spd: 2,
         width: 30,
         height: 30,
         image: tankRightM,
@@ -47,7 +47,7 @@ export default {
         }
     },
     player2: {
-        x: 500,
+        x: 600,
         y: 300,
         spd: 2,
         width: 30,

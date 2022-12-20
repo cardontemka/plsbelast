@@ -31,11 +31,17 @@ export const Tank = () => {
         { x: 390, y: 180, width: brick.width, height: brick.height, image: brick.image, heart: brick.heart },
     ]);
     const rocks = useRef([
-        { x: 150, y: 30, width: rock.width, height: rock.height, image: rock.image },
-        { x: 150, y: 60, width: rock.width, height: rock.height, image: rock.image },
-        { x: 150, y: 90, width: rock.width, height: rock.height, image: rock.image },
-        { x: 120, y: 90, width: rock.width, height: rock.height, image: rock.image },
+        { x: 90, y: 30, width: rock.width, height: rock.height, image: rock.image },
+        { x: 90, y: 60, width: rock.width, height: rock.height, image: rock.image },
         { x: 90, y: 90, width: rock.width, height: rock.height, image: rock.image },
+        { x: 60, y: 90, width: rock.width, height: rock.height, image: rock.image },
+        { x: 30, y: 90, width: rock.width, height: rock.height, image: rock.image },
+        //bottom
+        { x: 540, y: 300, width: rock.width, height: rock.height, image: rock.image },
+        { x: 540, y: 270, width: rock.width, height: rock.height, image: rock.image },
+        { x: 540, y: 240, width: rock.width, height: rock.height, image: rock.image },
+        { x: 570, y: 240, width: rock.width, height: rock.height, image: rock.image },
+        { x: 600, y: 240, width: rock.width, height: rock.height, image: rock.image },
     ]);
     var count = 0;
 

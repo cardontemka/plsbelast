@@ -1,6 +1,6 @@
 export const WallCollision = (player, map) => {
     if (player.up) {
-        if (player.y >= false) {
+        if (player.y >= 0) {
             player.moveHandler.up = true
             player.moveHandler.down = false
             player.moveHandler.left = false
@@ -24,7 +24,7 @@ export const WallCollision = (player, map) => {
             player.moveHandler.right = false
         }
     } else if (player.left) {
-        if (player.x >= false) {
+        if (player.x >= 0) {
             player.moveHandler.left = true
             player.moveHandler.up = false
             player.moveHandler.down = false
