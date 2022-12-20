@@ -7,7 +7,7 @@ import tankDownC from './images/cardonTank/tankDown.png'
 import tankLeftC from './images/cardonTank/tankLeft.png'
 import tankRightC from './images/cardonTank/tankRight.png'
 import brickImg from './images/bricks/brick.png'
-import wallImg from './images/bricks/wall.png'
+import rockImg from './images/bricks/rock.png'
 import bg from './images/noteBg.jpeg'
 export default {
     constant: {
@@ -85,5 +85,10 @@ export default {
         height: 30,
         image: brickImg,
         heart: 2,
-    }
+    },
+    rock: {
+        width: 30,
+        height: 30,
+        image: rockImg,
+    },
 }

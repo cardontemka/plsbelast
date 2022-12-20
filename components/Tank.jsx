@@ -11,10 +11,11 @@ import { BulldWall } from "./until/BulldWall";
 import { KeyDown, KeyUp } from "./until/Movement";
 import { KeyDown2, KeyUp2 } from "./until/Movement2";
 import { BullDamage } from "./until/BullDamage";
+import { BullRock } from "./until/BullRock";
 
 var end = false
 export const Tank = () => {
-    const { player, player2, map, bull, constant, brick } = data;
+    const { player, player2, map, bull, constant, brick, rock } = data;
     const canvasRef = useRef(null);
     const players = useRef([player, player2]);
     const bulls = useRef([]);
@@ -28,6 +29,13 @@ export const Tank = () => {
         { x: 330, y: 210, width: brick.width, height: brick.height, image: brick.image, heart: brick.heart },
         { x: 360, y: 210, width: brick.width, height: brick.height, image: brick.image, heart: brick.heart },
         { x: 390, y: 180, width: brick.width, height: brick.height, image: brick.image, heart: brick.heart },
+    ]);
+    const rocks = useRef([
+        { x: 150, y: 30, width: rock.width, height: rock.height, image: rock.image },
+        { x: 150, y: 60, width: rock.width, height: rock.height, image: rock.image },
+        { x: 150, y: 90, width: rock.width, height: rock.height, image: rock.image },
+        { x: 120, y: 90, width: rock.width, height: rock.height, image: rock.image },
+        { x: 90, y: 90, width: rock.width, height: rock.height, image: rock.image },
     ]);
     var count = 0;
 
@@ -72,6 +80,12 @@ export const Tank = () => {
                         Brick(ctx, brick, constant.flex);
                     })
                 }
+                if (rocks.current.length) {
+                    rocks.current.map((rock) => {
+                        BrickCollision(player, rock)
+                        Brick(ctx, rock, constant.flex);
+                    })
+                }
 
                 if (bulls.current.length) {
                     bulls.current.map((bull, bindex) => {
@@ -93,6 +107,12 @@ export const Tank = () => {
                                 if (brick.heart <= 0) {
                                     bricks.current.splice(destroy.ondex, 1)
                                 }
+                            }
+                        })
+                        rocks.current.map((rock, ondex) => {
+                            let pop = BullRock(bull, bindex, rock, ondex, map)
+                            if (pop !== null) {
+                                bulls.current.splice(pop.bindex, 1)
                             }
                         })
                         Bull(ctx, bull, constant.flex);
