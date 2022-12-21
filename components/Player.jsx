@@ -22,8 +22,6 @@ class Square {
         this.flex = flex;
     }
     draw(ctx) {
-        // ctx.fillStyle = 'red'
-        // ctx.fillRect(this.x * this.flex, this.y * this.flex, this.width * this.flex, this.height * this.flex)
         ctx.drawImage(this.image, this.x * this.flex, this.y * this.flex, this.width * this.flex, this.height * this.flex)
     }
 }

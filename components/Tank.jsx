@@ -12,6 +12,7 @@ import { KeyDown, KeyUp } from "./until/Movement";
 import { KeyDown2, KeyUp2 } from "./until/Movement2";
 import { BullDamage } from "./until/BullDamage";
 import { BullRock } from "./until/BullRock";
+import bg from '../images/noteBg.jpeg';
 
 var end = false
 export const Tank = () => {
@@ -44,6 +45,8 @@ export const Tank = () => {
         { x: 600, y: 240, width: rock.width, height: rock.height, image: rock.image },
     ]);
     var count = 0;
+    var se = 0;
+    var loop = 0;
 
     // for (let i = 0; i < 12; i++) {
     //     for (let q = 0; q < 22; q++) {
@@ -72,7 +75,7 @@ export const Tank = () => {
             const ctx = canvas.getContext('2d');
 
             ctx.clearRect(0, 0, map.width * constant.flex, map.height * constant.flex);
-            Background(ctx, map, constant.flex);
+            // Background(ctx, map, constant.flex);
 
             // if (players.current.length == 1 && !end) {
             //     end = true
@@ -83,13 +86,11 @@ export const Tank = () => {
                 if (bricks.current.length) {
                     bricks.current.map((brick) => {
                         BrickCollision(player, brick)
-                        Brick(ctx, brick, constant.flex);
                     })
                 }
                 if (rocks.current.length) {
                     rocks.current.map((rock) => {
                         BrickCollision(player, rock)
-                        Brick(ctx, rock, constant.flex);
                     })
                 }
 
@@ -129,7 +130,16 @@ export const Tank = () => {
 
                 move(player, pindex);
             })
-
+            if (bricks.current.length) {
+                bricks.current.map((brick) => {
+                    Brick(ctx, brick, constant.flex);
+                })
+            }
+            if (rocks.current.length) {
+                rocks.current.map((rock) => {
+                    Brick(ctx, rock, constant.flex);
+                })
+            }
         }
         render();
     }, []);
@@ -165,7 +175,7 @@ export const Tank = () => {
 
     return (
         <canvas
-            style={{ width: map.width * constant.flex + 'px', height: map.height * constant.flex + 'px', backgroundColor: 'gray' }}
+            style={{ width: map.width * constant.flex + 'px', height: map.height * constant.flex + 'px', backgroundImage: `url(${bg})`, backgroundSize: 'cover'}}
             ref={canvasRef}
             width={map.width * constant.flex}
             height={map.height * constant.flex}

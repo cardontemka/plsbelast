@@ -4,6 +4,7 @@ import { Tank } from './components/Tank';
 function App() {
   return (
     <div className="App">
+      {console.log('re-render')}
       <Tank/>
     </div>
   );
